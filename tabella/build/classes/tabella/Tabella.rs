@@ -1,0 +1,2 @@
+tabella.Csapat
+tabella.AlternativTabella
