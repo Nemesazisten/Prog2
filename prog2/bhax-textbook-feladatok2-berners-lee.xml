@@ -1,0 +1,40 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Berners-Lee!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>C++ és Java összehasonlítás</title>
+        <para>
+        	C++: Benedek Zoltán, Levendovszky Tihamér Szoftverfejlesztés C++ nyelven
+        </para>
+		<para>
+        	Java: Nyékyné Dr. Gaizler Judit et al. Java 2 útikalauz programozóknak 5.0 I-II
+		</para>
+        <para>
+        	A Java nyelv jelölésrendszerét figyelve sok mindent vett át a C++ nyelvből, de vigyáztak a megbízhatóságra. C++-ban vannak mutatók és referenciák, viszont Java-ban csak referencia van. A Java és a C++ is objektumorientált, objektumok és ezek mintáinak tekinthető osztályokból épül fel. Az objektumorientált programozás olyan programozási paradigma, amely a programokat objektumokból építi fel. Legfontosabb alapelvei: öröklődés, egységbezárás, polimorfizmus. A program működése objektumok kommunikációját jelenti. Az objektumok az objektumorientált technológia alapjai. Két jellemzővel rendelkeznek: állapottal és viselkedéssel. Az állapotot egy vagy több változóval, a viselkedést az objektumhoz rendelt metódussal (függvénnyel) írjuk le. Az objektum egy elemére úgy tudunk hivatkozni, hogy az objektum neve után írunk egy pontot, és utána írjuk az elem nevét. Egy osztály mezőkből (változókból) és metódusokból. Bizonyos nyelvekben a metódusokat függvényeknek neveznek, bár nincs visszatérési értékük. A Java-ban és C++-ban is a main() függvény hívódik meg a program futtatása során. A program argomentumai tömbben kerülnek meghívásra. C++-ban fordítás után az adott platform architektúráján futtatjuk a programot bármilyen segítség nélkül, viszont Javában másik programra úgynevezett interpreterre van szükség. Ez sokat visszavesz a sebességből, ezért a legtöbb interpreter platformfüggő kódra fordítja át a programot futtatás előtt ezzel gyorsítva a folyamatot. A Java segítségével tudunk appleteket, melyek html kódba ágyazva tudunk futtatni webes környezetben. Mindkét nyelvben megtalálhatók különböző típusú változók (pl: boolean, int, string, char). Java-ban a final kulcsszót használjuk konstans megadására, a C++-ban a const-t. Mindkét nyelvben megjegyzéseket tudunk elhelyezni a programkódban a // (egy soros) vagy a /* */ (több soros) jelölések segítségével.
+        </para>
+    </section>        
+
+    <section>
+        <title>Python</title>
+        <para>
+        	Python: Forstner Bertalan, Ekler Péter, Kelényi Imre: Bevezetés a mobilprogramozásba.
+        	Gyors prototípus-fejlesztés Python és Java nyelven (35-51 oldal), a kijelölt oldalakból élmény-olvasónapló
+        </para>
+		<para>
+			A Python-t Guido van Russom hozta létre 1990-ben, hogy megkönnyeítse a fejlesztők dolgát. Szkriptnyelvként van besorolva, de használhatjuk összetetteb problémák megoldására is. Nagyon sok már előre megírt kódkönyvtárral rendelkezik, amelyek a hálózatkezelő, fájlkezelő vagy felhasználói felület kialakítására szolgálnak gyorsítva a fejlesztést. A tesztelés során a fordítási fázis kimarad (ellentétben Java és C++), ezzel gyorsítva a munkát, és szinte minden operációs rendszeren elérhető. Jól működik más nyelvekkel, egyszerű használni. A begin és end kulcsszavakra nincs szükség. A kódsor csoportosítása zárójelek nélkül történik. A széttagolásra sortörést és tabulátorokat használnak. Nincs szükség változók definiálására sem, mert a program futás közben érzékeli a típusát az értékük által (sztringek, számok, listák, szótárak, ennesek). Egy utasítás a sor végéig tart, ezért nincs pontosvessző sem. A sorokat tokenekre bontja, melyek fajtái: kulcsszó, operátor, delimiter, literál vagy azonosító. Megjegyzésket a programokódba a # segítségével lehet.
+        </para>
+        <para>
+        </para>
+        <para>
+        </para>
+        <para>
+        </para>
+        <para>
+        </para>
+    </section>  
+</chapter>                

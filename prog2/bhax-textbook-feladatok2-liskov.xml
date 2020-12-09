@@ -1,0 +1,187 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Liskov!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Liskov helyettesítés sértése</title>
+        <para>
+		Írjunk olyan OO, leforduló Java és C++ kódcsipetet, amely megsérti a Liskov elvet! Mutassunk rá a
+megoldásra: jobb OO tervezés.
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_1.pdf (93-99 fólia)
+(számos példa szerepel az elv megsértésére az UDPROG repóban, lásd pl. source/binom/BatfaiBarki/madarak/)
+        </para>
+        
+        <para>
+            A Madar objektumot meghívva a program kiírja hogy a madár tud e repülni. A Program osztálynak van egy metódusa amely rendelkezik egy Madar tipusú paraméterrel. Ez az eljárás meghívja a Madar objektum repul() metódusát. A Liskov elv megsértése ebben a példában ott jelenik meg, hogy a program.fgv(pingvin) parancsnál a program kiírja, hogy a pingvin tud repülni.
+        </para>
+        <programlisting language='Java'><![CDATA[
+ 			public class Program {
+		    public void fgv(Madar madar){
+	        madar.repul();
+  			  }
+			}
+    		]]>
+    	</programlisting>
+        <programlisting language='Java'><![CDATA[
+ 			public class Madar {
+    public void repul(){
+        System.out.println("repül");
+    }
+
+    public static void main(String[] args) {
+        Program program = new Program();
+        Madar  madar = new Madar();
+        program.fgv(madar);
+
+        Sas sas = new Sas();
+        program.fgv(sas);
+
+        Pingvin pingvin = new Pingvin();
+        program.fgv(pingvin);
+    }
+}
+    		]]>
+    	</programlisting>
+    </section>
+       <section>
+        <title>Szülő-gyerek</title>
+        <para>
+rjunk Szülő-gyerek Java és C++ osztálydefiníciót, amelyben demonstrálni tudjuk, hogy az ősön
+keresztül csak az ős üzenetei küldhetőek!
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_1.pdf (98. fólia)4
+        </para>
+        
+        <para>
+            A madaras példát dolgoztam át, hogy s Sas osztályba beleírtam egy szulo() metódust, amely a Madar-ban nem szerepel. A program fordulásnál hibát jelzett, hogy nem ismeri azt a szulo() metodust. 
+        </para>
+        <programlisting language='Java'><![CDATA[
+ 			public class Sas extends Madar{
+    public void szulo(){
+        System.out.println("szülője");
+    }
+}
+    		]]>
+    	</programlisting>
+    	<para>
+    	<figure>
+    		<title>madarszulo</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/madarszulo.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>
+	<section>
+        <title>Anti OO</title>
+        <para>
+A BBP algoritmussal
+a Pi hexadecimális kifejtésének a 0. pozíciótól számított 10^6, 10^7, 10^8 darab
+jegyét határozzuk meg C, C++, Java és C# nyelveken és vessük össze a futási időket!
+https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/apas03.html#id561066
+        </para>
+        
+        <para>
+            Javaban lefuttattam a programot.
+        </para>
+        <programlisting language='Java'><![CDATA[
+ 			public class AntiOO {
+    public static double d16Sj(int d, int j) {
+        double d16Sj = 0.0d;
+        for(int k=0; k<=d; ++k)
+            d16Sj += (double)n16modk(d-k, 8*k + j) / (double)(8*k + j);
+        return d16Sj - Math.floor(d16Sj);
+    }
+    public static long n16modk(int n, int k) {
+        int t = 1;
+        while(t <= n)
+            t *= 2;
+        long r = 1;
+        while(true) {
+            if(n >= t) {
+                r = (16*r) % k;
+                n = n - t;
+            }
+            t = t/2;
+            if(t < 1)
+                break;
+            r = (r*r) % k;
+        }
+        return r;
+    }
+    public static void main(String args[]) {
+        double d16Pi = 0.0d;
+        double d16S1t = 0.0d;
+        double d16S4t = 0.0d;
+        double d16S5t = 0.0d;
+        double d16S6t = 0.0d;
+        int jegy = 0;
+        long delta = System.currentTimeMillis();
+        for(int d=1000000; d<1000001; ++d) {
+            d16Pi = 0.0d;
+            d16S1t = d16Sj(d, 1);
+            d16S4t = d16Sj(d, 4);
+            d16S5t = d16Sj(d, 5);
+            d16S6t = d16Sj(d, 6);
+            d16Pi = 4.0d*d16S1t - 2.0d*d16S4t - d16S5t - d16S6t;
+            d16Pi = d16Pi - Math.floor(d16Pi);
+            jegy = (int)Math.floor(16.0d*d16Pi);
+        }
+        System.out.println(jegy);
+        delta = System.currentTimeMillis() - delta;
+        System.out.println(delta/1000.0);
+    }
+}
+    		]]>
+    	</programlisting>
+    	<para>
+    	<figure>
+    		<title>antioo</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/antioojava.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>  
+    </section>
+	
+	
+	
+	<section>
+        <title>Ciklomatikus komplexitás</title>
+        <para>
+Számoljuk ki valamelyik programunk függvényeinek ciklomatikus komplexitását! Lásd a fogalom
+tekintetében a https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_2.pdf (77-79
+fóliát)!
+        </para>
+        <para>
+            A ciklomatikus komplexitás a https://hu.wikipedia.org/wiki/Ciklomatikus_komplexit%C3%A1s
+oldal alapján gráfelméleten alapulva egy olyan számértéket határoz meg egy szoftver forráskódja
+alapján, amely annak a komplexitását jellemzi. Az elágazásokból felépülő gráf pontjai, és a köztük
+lévő élek alapján számítható ki ez a komplexitás az alábbi módon:
+M = E − N + 2P
+ahol
+• E: A gráf éleinek száma
+• N: A gráfban lévő csúcsok száma
+• P: Az összefüggő komponensek száma
+A Binfa program függvényeinek ciklomatikus komplexitását a www.lizard.ws oldalon számoltam ki.
+        </para>
+        <para>
+    	<figure>
+    		<title>binfalizard</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/binfalizard.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+</chapter>                

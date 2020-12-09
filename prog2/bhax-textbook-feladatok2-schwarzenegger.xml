@@ -1,0 +1,85 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Schwarzenegger!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Port scan</title>
+        <para>
+		Mutassunk rá ebben a port szkennelő forrásban a kivételkezelés szerepére!
+https://www.tankonyvtar.hu/hu/tartalom/tkt/javat-tanitok-javat/ch01.html#id527287
+
+        </para>
+        
+        <para>
+            A kivételkezelés egy programozási mechanizmus, melynek célja a program futását szándékosan vagy nem szándékos módon megszakító esemény (hiba) vagy utasítás kezelése. Programunkban a függvény 0-1024-ig végignézi a portokat, hogy melyiken tud létrehozni kapcsolatot. A socket létrehozásakor 2 argumentumú konstruktort használunk. Az első a hostnak a neve, a második pedig a portnak a száma. Ha tudunk létesíteni kapcsolatot, akkor egyszerűen kiírjuk, hogy az a port figyeli, és le is zárjuk azt, ha sikertelen a próbálkozás, akkor pedig azt írja ki, hogy sikertelen. Ha találna egy ilyen portot, az azt jelentené, hogy "sebezhető" az eszközünk, vagyis könnyű lenne a privát adatokhoz hozzáférni. A programban azért szükséges a kivételkezelés, mert ha nem lehet kapcsolódni az adott porthoz, vagyis nem figyeli, akkor kivételt fog dobni, és leáll a program. Ez elkerülhető, ugyanis a kivételkezelés miatt ilyenkor a catch blokk fog végrehajtódni. Jelen esetünkben kiírásra kerül, hogy az adott portot semmi sem figyeli. Viszont ha sikeres a kapcsolódás, akkor a catch rész nem fog lefutni, vagyis a program jelezni fogja, hogy a portot egy folyamat figyeli.
+        </para>
+        <programlisting language='Java'><![CDATA[
+public class KapuSzkenner {
+
+    public static void main(String[] args) {
+
+        for(int i=0; i<1024; ++i)
+
+            try {
+
+                java.net.Socket socket = new java.net.Socket(args[0], i);
+
+                System.out.println(i + " figyeli");
+
+                socket.close();
+
+            } catch (Exception e) {
+
+                System.out.println(i + " nem figyeli");
+
+            }
+    }
+
+}
+            ]]>
+        </programlisting>
+        <para>
+        <figure>
+            <title>KapuSzkenner</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/KapuSzkenner.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>        
+
+        
+	<section>
+        <title>Android Játék</title>
+        <para>
+		Írjunk egy egyszerű Androidos „játékot”! Építkezzünk például a 2. hét „Helló, Android!” feladatára!
+        </para>
+        
+        <para>
+            Egy működő androidos játékot kellett írni, amit én ezt a alábbi youtube
+tutorial alapján valósítottam meg:
+https://www.youtube.com/watch?v=apDL78MFR3o
+A játék egy tictactoe játék, ami a játék szabályai alapján működik, számolja a játékosok pontjait, valamint egy reset funkció is bele van építve, ami az eddig összegyűjtött pontokat nullázza.
+        </para>
+        <para>
+        <figure>
+            <title>TicTacToe</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/TicTacToe.png" scale="50"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>        
+	     
+	     
+        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                

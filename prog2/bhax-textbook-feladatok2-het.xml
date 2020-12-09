@@ -1,0 +1,91 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, !</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+        
+    <section>
+        <title>OOCWC Boost ASIO hálózatkezelése</title>
+        <para>
+		Mutassunk rá a scanf szerepére és használatára! https://github.com/nbatfai/robocaremulator/blob/master/justine/rcemu/src/carlexer.ll
+        </para>
+        
+        <para>
+            A sscanf függvény az std könyvtár egy tagja, amely adatot olvas a standard bemenetről, majd eltárolja azokat a paraméter típusa szerint egy megadott helyre amit további argomentumként kap meg a függvény. A % jel után írt karakter mindig a beolvasott típust, míg a <![CDATA[&]]> jel után a helyet jelenti. A sscanf egy while ciklusban helyezkedik el, és a szerepe, hogy addig dolgozza fel az adott formázott string-ből az adatokat amíg, megfelel a Gangster kritériumának, amelyhez 4 szám szükséges. A %n az olvasott karakterek számát rögzíti. Az érdekesebb része a programnak, hogy a while ciklusban az "nn+=n" számat növeljük, hogy képesek legyünk tényleges while ciklust használni, nem csak az első inputot feldolgozni, és a többi potenciális Gangster-rel nem törödni. Megjegyezném azt is, hogy a sscanf visszatéríti a sikeresen feltöltött változók számát. Itt jön be felhasználásra az az adat, hogy 4 argumentum szükséges a Gangster típushoz.
+        </para>
+        <programlisting language='C++'><![CDATA[
+while ( std::sscanf ( data+nn, "<OK %d %u %u %u>%n", &idd, &f, &t, &s, &n ) == 4 )
+{
+nn += n;
+gangsters.push_back ( Gangster {idd, f, t, s} );
+}
+            ]]>
+        </programlisting>
+    </section> 
+	    <section>
+        <title>SamuCam</title>
+        <para>
+		Mutassunk rá a webcam (pl. Androidos mobilod) kezelésére ebben a projektben:
+https://github.com/nbatfai/SamuCam
+        </para>
+        
+        <para>
+            A SamuCam konstruktorát a szélesség és magasság és egy string bemenet adják. Ennek segítségével elindítja a videostreamet. Ehhez a header fájlban definiált cv::videostreamet használja, így nyitja meg magát a streamet és elvégzi a beállításokat. Majd erre ráengedi a CascadeClassifiert, amit egy XML alapján hozott létre, és ezáltal válik lehetővé az arcfelismerés. A load függvény segítségével megnyit egy classifiert, ami egy emberi arcot ír majd le. Amíg a videókamera használatban van (50 ms-ként történő ellenőrzéssel), folyamatosan kéri a frame-eket 80 ms-ként, melyeket újraméretez és szürkeárnyalatosra fest, majd elindítja az arcfelismerést soronként és oszloponként, és a megfelelő képpontokat adja vissza, így a kapott vektorokkal egy téglalapba zárható az arc. Ha nem ismer fel arcot, akkor egyszerűen a webcam képét adja vissza. Az openCV felelős a videó felvételért, a videókból a képek csinálásáért, a képek formázásáért (kicsinyítés, Grayscale), és az arc felismeréséért. A QT az univerzális grafikus felület.
+        </para>
+        <para>
+        <figure>
+            <title>SamuCam</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/SamuCam.png" scale="28"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section> 
+	    <section>
+        <title>BrainB</title>
+        <para>
+		Mutassuk be a Qt slot-signal mechanizmust ebben a projektben: https://github.com/nbatfai/esporttalent-search
+        </para>
+        
+        <para>
+            Tehetségkutató játék ami azt nézi, hogy meddig tudjuk rajta tartani a kurzort a középen lévő ponton. Minél több új játékos keletkezik, a játék annál nehezebb lesz. A Qt(slot signal) jel rés mechanizmusa segítségével lekezeljük a Kilépés gomb megnyomását. Qt-ban a slot-signal mechanizmust objektumok közti kommunikációra lehet használni. A slot-siganl mechanizmus egy Qt által nyújtott lehetőség, hogy egy megadott eseményre egy úgynevezett Signal keletkezik, A slot egy olyan függvény amit egy bizonyos signal bekövetkezte esetén kell meghívni. Az egeret lenyomva tartva a Samu Entropy körén egy signalt idéz elő, mely kiváltja az újabb négyzetek megjelenését a mozgás gyorsulása a Slot részben. Hasznos link ehhez a példához: https://doc.qt.io/archives/3.3/signalsandslots.html
+            A slot signal mechanizmus: A signal mechanizmust az osztályoknál kell keresni, a Q_Objectet, ami egy meta. Ugyebár a meta object compiler az kezeli a Qt-s C++ kiterjesztéseket. Ez olvassa a header fájlokat, és ha több osztály tartalmazza ezt a macrot, akkor előállít egy olyan forrást, amely tartalmazza ezeknek a metaobjektum kódját. Ez a metaobjektum kód szükséges a jel(signal) és a slot mechanizmushoz. Mindemellett a futási időben eldöntött típusinformációkhoz. A signal-oknál 2 függény van.
+        </para>
+        <programlisting language='C++'><![CDATA[
+void heroesChanged ( const QImage &image, const int &x, const int &y );
+void endAndStats ( const int &t );
+            ]]>
+        </programlisting>
+        <para>
+            Következtethetünk a metódusnevekből, a signal-ok lefutására. Az első ugyebár az objektumok mozgásakor, mikor az entropy-k koordinátája változik, a másodikban pedig az eredmény kiíratására a futás végén. Ha signal-t hívunk, akkor az emit kulcsszót kell alkalmazni. A heroesChanged-et a thread headerben találjuk a kirajzolásnál. Az end stat-ot a futtatásnál a thread.cpp-ben.
+        </para>
+        <programlisting language='C++'><![CDATA[
+emit heroesChanged ( dest, heroes[0].x, heroes[0].y );
+emit endAndStats ( endTime );
+            ]]>
+        </programlisting>
+        <para>
+            A signal-okat bekapcsolni a connect-el kell a slot-okhoz. A slot-okat akkor hívjuk meg ha egy signal bekövetkezik. Ezzel kerülhetjük el egy másik osztály függvény meghívását. A connect-eket a win.cpp-ben találjuk. A signal-ok és a slot-ok felépítésének meg kell egyezni.
+        </para>
+        <programlisting language='C++'><![CDATA[
+connect ( brainBThread, SIGNAL ( heroesChanged ( QImage, int, int ) ), this, SLOT ( updateHeroes ( QImage, int, int ) ) );
+connect ( brainBThread, SIGNAL ( endAndStats ( int ) ), this, SLOT ( endAndStats ( int ) ) );
+
+            ]]>
+        </programlisting>
+        <para>
+        <figure>
+            <title>BrainB</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/BrainB.png" scale="60"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para> 
+</section>                                                  
+</chapter>                

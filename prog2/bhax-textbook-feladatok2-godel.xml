@@ -1,0 +1,162 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Gödel!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Gengszterek</title>
+        <para>
+		Gengszterek rendezése lambdával a Robotautó Világbajnokságban
+https://youtu.be/DL6iQwPx1Yw (8:05-től)
+
+        </para>
+        
+        <para>
+            A lambdás rendezés mindig paraméteres megoldást takar. Itt a függvényhívás úgy történik, hogy először a paramétereket adom meg, ami jelen esetben két gangster objektum, majd a függvény törzsét. Így akár egy paraméterezett parancsról is lehetne beszélni. Itt az std::sort függvénye szolgál rendezésre, ahol megadom, hogy mettől meddig rendezze a vektort, majd megadom a visszatérési értéknél azt a vektort, melyet a rendezéssel hozok létre. A dst(cop, x.to) függvény megadja a paraméterként megadott gangster és rendor távolságát. Majd ezt megcsináljuk az y gangsterre. Ha közelebb van a cop-hoz az x, akkor igazzal tér vissza a függvény.
+        </para>
+        <programlisting language='C++'><![CDATA[
+int main{
+/*reading all gangsters into a vector*/
+int idd {0};
+unsigned f, t, s, ret = 0;
+int n {0};
+int nn {0};
+std::vector<unsigned> gangsters;
+while (std::sscanf (data+nn, "<OK \d \u \u \u>\n", &idd, &f, &t, &s, &n ) xx 4){
+nn +x n;
+gangsters.push_back ( f );
+}
+std::sort (gangsters.begin(), gangsters.end(), [this, cop] (unsigned x, unsigned y)
+{
+return dst(cop, x) < dst (cop, y);
+} );
+if (gangsters.size() > 0)
+return gangsters[0];
+else
+return 0;
+}
+            ]]>
+        </programlisting>
+    </section>        
+    <section>
+        <title>C++11 Custom Allocator</title>
+        <para>
+		https://prezi.com/jvvbytkwgsxj/high-level-programming-languages-2-c11-allocators/ a
+CustomAlloc-os példa, lásd C forrást az UDPROG repóban!
+
+        </para>
+        <para>
+            Megoldás videó:
+        </para>
+        <para>
+            Megoldás forrása:                
+        </para>
+        <para>
+            Tanulságok, tapasztalatok, magyarázat...
+        </para>
+    </section>      
+	    <section>
+        <title>STL map érték szerinti rendezése</title>
+        <para>
+		Például: https://github.com/nbatfai/future/blob/master/cs/F9F2/fenykard.cpp#L180
+
+        </para>
+       
+        <para>
+            Létrehozok egy konstruktort, amiben implementálok egy map adatszerkezet. Feltöltöm az autók neveivel, (ezek a kulcsok) majd megadom mennyi idősek (ezek az értékek). Meghívom a rendez() metódusomat, majd kiíratom a rendezett mapot. Az rendez() függvény egy linkedHashMap-et ad vissza, és paraméterként vár egy Map-ot, aminek a kulcsa String, és értéke Integer. Különválasztom két ArrayList-be az autókat és korukat, majd a Collections.sort metódussal növekvő sorrendbe rendezem. Létrehozok egy hashmap-ot, amiben a rendezett értékeket rakom, majd a függvény visszatér vele. Egy iterátort csinálok az age-re és egy while ciklus segítégével végigmegyek az age ArrayList-en. Egy integer objektumba az iterátor következő elemét lekérjük, majd csinálok még egy iterátort az autók nevére és egy belso while ciklussal azon is végigmegyek. Ha az elso hasonlít az e objektumra, akkor a hashMap-be berakjuk a kulcs és elso változókat. A végén visszaadjuk a rendezés eredményét. A main-be példányosítom a fentebb implementált STL konstruktort.
+        </para>
+        <programlisting language='Java'><![CDATA[
+import java.util.*;
+
+public class STL {
+        STL() {
+            Map<String, Integer> cars = new HashMap<String, Integer>();
+            cars.put("Audi", 2); cars.put("Skoda", 5); cars.put("BMW", 14);
+            cars.put("Lada", 22); cars.put("Wartburg", 25); cars.put("Trabant", 23);
+            cars.put("Mercedes", 3); cars.put("Renault", 6); cars.put("Peugeot", 1);
+            cars.put("Citroen", 13); cars.put("Ferrari", 7); cars.put("Mazda", 9);
+            cars.put("Lamborghini", 4); cars.put("Polski", 30); cars.put("Ford", 12);
+            cars = rendez(cars);
+            System.out.println(cars);
+        }
+        public LinkedHashMap<String, Integer> rendez(Map<String, Integer>cars) {
+            ArrayList<String> name = new ArrayList<String>(cars.keySet());
+            ArrayList<Integer> age = new ArrayList<Integer>(cars.values());
+            Collections.sort(name);
+            Collections.sort(age);
+            LinkedHashMap<String, Integer> rendezett = new LinkedHashMap<String,Integer>();
+            Iterator<Integer> ertek = age.iterator();
+            while (ertek.hasNext()) {
+                Integer e = ertek.next();
+                Iterator<String> kulcsit = name.iterator();
+                while (kulcsit.hasNext()) {
+                    String kulcs = kulcsit.next();
+                    Integer elso = cars.get(kulcs);
+                    if (elso.equals(e))
+                    {
+                        rendezett.put(kulcs,elso);
+                    }
+                }
+            }
+            return rendezett;
+        }
+        public static void main(String args[]){
+            new STL();
+        }
+
+
+    }
+            ]]>
+        </programlisting>
+        <para>
+        <figure>
+            <title>STL</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/STL.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>      
+	    <section>
+        <title>Alternatív Tabella rendezése</title>
+        <para>
+		Mutassuk be a https://progpater.blog.hu/2011/03/11/alternativ_tabella a programban a java.lang
+Interface Comparable T szerepét!
+        </para>
+        
+        <para>
+            Célja a csapatok teljesítményére vonatkozó rendezés, amit nem csak a vereségek, döntetlenek, és győzelmek aránya alapján határoz meg, hanem figyelembe veszi azt is, hogy erősebb csapat ellen többet ér a győzelem. A Comparable<![CDATA[<T>]]> egy interface amelyet az implements kulcsszóval lehet implementálni az osztályhoz. Ez az interface egy függvényt definiál, a public int compareTo(To)-t. Ez a függvény összehasonlítja a paraméterként kapott T objektumot egy másik objektummal. Visszatérésként kapunk egy számot a két objektum relációjától függően. Három fajta lehet. Az egyik a kisebb, akkor visszatér negatívval. A másik a hasonló, akkor visszaad nullát. És a harmadik a nagyobb, akkor pozitívval tér vissza. Ahogy látható a kódból is implementáltuk a Comparable-t az Csapat osztályra. Majd kifejtettük a compareTo(Csapat csapat). Itt az osztály attribútumaként megadott ertek-et hasonlítjuk össze a paraméterként átadott Csapat objektum értékével. A visszatérés a fentebb leírt módon történik.
+        </para>
+        <programlisting language='Java'><![CDATA[
+class Csapat implements Comparable<Csapat> {
+
+  protected String nev;
+  protected double ertek;
+
+  public Csapat(String nev, double ertek) {
+    this.nev = nev;
+    this.ertek = ertek;
+  }
+
+  public int compareTo(Csapat csapat) {
+    if (this.ertek < csapat.ertek) {
+      return -1;
+    } else if (this.ertek > csapat.ertek) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+}
+            ]]>
+        </programlisting>
+    </section>          
+	 
+	  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>

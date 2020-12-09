@@ -1,0 +1,170 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Stroustrup!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>JDK osztályok</title>
+        <para>
+		Írjunk olyan Boost C++ programot (indulj ki például a fénykardból) amely kilistázza a JDK összes
+osztályát (miután kicsomagoltuk az src.zip állományt, arra ráengedve)!
+
+        </para>
+        
+        <para>
+            Létrehozok egy lista nevű eljárást ami egy for ciklus segítséségvel vizsgálja a c:\src könyvtárba másolt src.zip kitömörített tartalmát. Az ftomb fogja tartalmazni az aktuális fileokat. A f.listFile() metódus segítségével adtuk át az értékeket. Vizgsáljuk egy if elágazással, hogy file e. Ha igen, akkor kiiratjuk, különben pedig meghívjuk rá a lista eljárást. Ekkor hívja meg magát rekurzívan.
+        </para>
+        <para>
+    	<figure>
+    		<title>JDK</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/JDK.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    <para>
+        Szegedi Csaba tutorált engem, pontosabban a C++ kódot futtatta, és készített print screent, mert itt órán a gépen nem volt telepítve a boost, ezért nem tudtam futtatni.
+    </para>
+    <programlisting language='C++'><![CDATA[
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdio.h>
+#include <boost/filesystem.hpp>
+#include <boost/filesystem/fstream.hpp>
+#define GetCurrentDir getcwd
+using namespace std;
+vector<string> searchRootFolders(vector<string> folders);
+void readClasses(string path, vector<string> &classes);
+string GetCurrentWorkingDir(void)
+{
+	char buff[FILENAME_MAX];
+	GetCurrentDir(buff, FILENAME_MAX);
+	string current_working_dir(buff);
+	return current_working_dir;
+}
+int main(int argc, char const *argv[])
+{
+	vector<string> roots = {
+		GetCurrentWorkingDir() + "/" + "src"};
+	vector<string> classes = searchRootFolders(roots);
+	cout << endl
+		 << "-----------------Printing java classes------------------------" << endl;
+	for (auto &i : classes)
+	{
+		cout << i << endl;
+	}
+	cout << "All in all there were " << classes.size() << " classes found\n";
+	return 0;
+}
+void readClasses(boost::filesystem::path path, vector<string> &classes)
+{
+	if (is_regular_file(path))
+	{
+		std::string ext(".java");
+		if (!ext.compare(boost::filesystem::extension(path)))
+		{
+			classes.push_back(path.string());
+		}
+	}
+	else if (is_directory(path))
+		for (boost::filesystem::directory_entry &entry : boost::filesystem::directory_iterator(path))
+			readClasses(entry.path(), classes);
+}
+vector<string> searchRootFolders(vector<string> folders)
+{
+	vector<string> classes;
+	for (const auto &path : folders)
+	{
+		boost::filesystem::path root(path);
+		readClasses(root, classes);
+	}
+	return classes;
+}
+    		]]>
+    	</programlisting>
+    	<para>
+    	<figure>
+    		<title>JDKC++command</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/JDKC++command.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+<para>
+    	<figure>
+    		<title>JDKC++result</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/JDKC++result.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>        
+    <section>
+        <title>Másoló-mozgató szemantika</title>
+        <para>
+		Kódcsipeteken (copy és move ctor és assign) keresztül vesd össze a C++11 másoló és a mozgató
+szemantikáját, a mozgató konstruktort alapozd a mozgató értékadásra!
+
+        </para>
+        
+        <para>
+            A feladat megoldásához egy feladatot használtam fel az LZWBinFa-t. Arra kell figyelnünk a feladat során, ha alapértelmezetten definiálunk egy osztályt, akkor a másolás során csak a memóriacím adódik át, és az érték nem. Ebben az esetben ha módosítjuk az egyik értéket, akkor a másik érték is módosulni fog. Ez elég sok kellemetlenséget tud okozni. Ennek kiküszöböléseképpen vannak különböző szemantikák. Ebben a példában az általunk megírt másoló konstruktor akkor hívódik meg, ha az objektumunk konstruktorába egy bal oldali referenciájú azonos típusú objektumot írunk. Ezután az új objektumnak átadjuk a régi értékét, de csak azt. Így ha az egyiket módosítjuk, akkor a másik nem fog változni. Ugyanez vonatkozik a mozgató szemantikára is. Csak ott a memóriában lefoglalt helyet "átmozgatjuk" az új változónak a benne tárolt értékekkel együtt, és utána a régit töröljük, ezzel felszabadítva a helyet az új adatnak. Ez a kódban itt jelenik meg:
+        </para>
+        <programlisting language='Java'><![CDATA[
+class LZWBinFa {
+public:
+
+	LZWBinFa () :fa (gyoker = new Csomopont()){}
+		~LZWBinFa () {
+		std::cout << "LZWBinFa dtor" << std::endl;
+		szabadit (gyoker);
+		}
+
+	LZWBinFa ( const LZWBinFa & regi ) {
+		std::cout << "LZWBinFa copy ctor" << std::endl;
+		gyoker = masol(regi.gyoker, regi.fa);
+	}
+
+	LZWBinFa (LZWBinFa && regi) {
+		std::cout << "LZWBinFa move ctor" << std::endl;
+		gyoker = nullptr;
+		*this = std::move(regi);
+		// gyoker = regi.gyoker;
+		// regi.gyoker = nullptr;
+	}
+
+	LZWBinFa& operator=(LZWBinFa && regi){
+		std::cout << "LZWBinFa move assign" << std::endl;
+		std::swap(gyoker, regi.gyoker);
+		return *this;
+		}
+    		]]>
+    	</programlisting>
+    </section>            
+    <section>
+        <title>Összefoglaló</title>
+        <para>
+		Az előző 4 feladat egyikéről írj egy 1 oldalas bemutató „”esszé szöveget!
+        </para>
+       
+        <para>
+            Az osztály definíciója 2 fő alkotóelemből áll: az osztály deklarációjából, és az osztály törzséből. Az osztály deklaráció az osztály kódjának az első sora. Minimálisan az osztály deklaráció meghatározza az osztály nevét. Az osztálytörzs az osztály deklarációt követi, és kapcsos zárójelek között áll. Az osztály törzs tartalmazza mindazt a kódot, amely hozzájárul az osztályból létrehozott objektumok életciklusához: konstruktorok, új objektumok inicializálására, változó deklarációk, amelyek megadják az osztály és objektumának állapotát, és eljárásokat az osztály és objektumai viselkedésének meghatározására.
+Az osztály három tagváltozót definiál az osztálytörzsön belül. A következő konsrtruktor a tagváltozók kezdőértékeinek beállítására biztosít lehetőséget. Megadhatunk egy osztályt egy másik osztály tagjaként. Egy ilyen osztályt beágyazott osztálynak hívunk. A beágyazott osztályokat arra használjuk, hogy kifejezzük és érvényesítsük két osztály között a kapcsolatot. Megadhatunk egy osztályt egy másik osztályon belül, hogyha a beágyazott osztálynak a magába foglaló osztályon belüli környezetben van értelme. Pl. a szövegkurzornak csak a szövegkomponensen belüli környezetben van értelme.
+A beágyazó osztály tagjaként a beágyazott osztály kiváltságos helyzetben van. Korlátlan hozzáféréssel rendelkezik a beágyazó osztályok tagjaihoz még akkor is, hogy ha azok privátként vannak deklarálva. Azonban ez a speciális kiváltság nem mindig speciális. A hozzáférést biztosító tagok korlátozzák a hozzáféréseket az olyan osztálytagokhoz, amelyek a beágyazó osztályon kívül esnek. A beágyazott osztály a beágyazó osztályon belül található, ebből kifolyólag hozzáférhet a beágyazó osztály tagjaihoz. Mint ahogyan más tagokat is, a beágyazott osztályokat is statikusként, avagy nem statikusként lehet deklarálni, ezért ezeket pontosan így is hívják: statikus beágyazott osztály. A nem statikus beágyazott osztályokat belső osztályoknak hívjuk. Ahogy a statikus metódusok és változók esetén, amelyeket mi osztálymetódusoknak és változóknak hívunk, a statikus beágyazott osztályt a beágyazó osztályával kapcsoljuk össze. Ahogy az osztálymetódusok, a statikus beágyazott osztályok sem hivatkozhatnak közvetlenül olyan példányváltozókra vagy metódusokra, amely az ő beágyazó osztályában van megadva. A példánymetódusok és változók esetén egy belső osztály az ő beágyazó osztályának a példányával kapcsolódik össze, és közvetlen hozzáférése van annak az objektumnak a példányváltozóihoz és metódusaihoz. Mivel egy belső osztályt egy példánnyal társítanak, ezért önmaga nem definiálhat akármilyen statikus tagot. Ezeket az osztályokat listázza ki a programunk.
+
+        </para>
+    </section>        
+   
+        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                

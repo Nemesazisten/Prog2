@@ -1,0 +1,137 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Arroway!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>OO szemlélet</title>
+        <para>
+		    A módosított polártranszformációs normális generátor beprogramozása Java nyelven. Mutassunk rá,
+            hogy a mi természetes saját megoldásunk (az algoritmus egyszerre két normálist állít elő, kell egy
+            példánytag, amely a nem visszaadottat tárolja és egy logikai tag, hogy van-e tárolt vagy futtatni kell
+            az algot.) és az OpenJDK, Oracle JDK-ban a Sun által adott OO szervezés ua.!
+            https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_5.pdf (16-22 fólia)
+            Ugyanezt írjuk meg C++ nyelven is! (lásd még UDPROG repó: source/labor/polargen)
+        </para>
+        
+        <para>
+            Az OO szemlélet egy programozási paradigma, ami az objektumok fogalmán alapul. Megmutatja azt, hogy az OO szemlélettel létrehozhatok saját magam is dolgokat. Jelentősen megkönnyíti a programozást, mivel könnyedén felhasználhatunk akár más programozók által készített osztályokat, azok minden tulajdonságával, viszont néhány feladatot túlbonyolít, és kezdő programozóknak nehezebb elsajátítani a módszereket. A megoldásban látszik, hogy a feladat valóban megoldható egy logikai (boolean nincsTarolt) és egy tört (double tarolt) változó segítségével. Első alkalommal a program biztosan belép az if ágba, hiszen deklarációnál igazra állítottuk a boolean változónkat és az if csak annak igazságát vizsgálja. Ha a program belép az if ágba Math.random() függvény meghívásával 4 double változó segítségével és matematika műveletekkel létrehozunk egy tárolt tagot és a boolean változónkat ellenkező értékre állítjuk (jelen esetben hamis) Az else ág visszaadja az előzőleg eltárolt adatot.
+        </para>
+        <programlisting language='Java'><![CDATA[
+public class Polar {
+    boolean nincsTarolt = true;
+    double tarolt;
+    public Polar() {
+        nincsTarolt = true;
+    }
+    public double next() {
+        if (nincsTarolt) {
+            double u1, u2, v1, v2, w;
+            do{
+                u1 = Math.random();
+                u2 = Math.random();
+                v1 = 2 * u1 - 1;
+                v2 = 2 * u2 - 1;
+                w = v1 * v1 + v2 * v2;
+            }
+            while (w > 1);
+            double r = Math.sqrt((-2 * Math.log(w)) / w);
+            tarolt = r * v2;
+            nincsTarolt = !nincsTarolt;
+            return r * v1;
+        } else {
+            nincsTarolt = !nincsTarolt;
+            return tarolt;
+        }
+    }
+
+    public static void main(String[] args) {
+        Polar g = new Polar();
+        for (int i = 0; i < 10; i++ ){
+            System.out.println(g.next());
+        }
+    }
+}
+            ]]>
+        </programlisting>
+         <para>
+        <figure>
+            <title>OO</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/OO.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>        
+
+
+    <section>
+        <title>„Gagyi”</title>
+        <para>
+Az ismert formális
+„<![CDATA[
+while (x <= t && x >= t && t != x);
+]]>” tesztkérdéstípusra adj a szokásosnál
+(miszerint x, t az egyik esetben az objektum által hordozott érték, a másikban meg az objektum
+referenciája) „mélyebb” választ, írj Java példaprogramot mely egyszer végtelen ciklus, más x, t
+értékekkel meg nem! A példát építsd a JDK Integer.java forrására3
+, hogy a 128-nál inkluzív objektum
+példányokat poolozza!
+</para>
+        
+        <para>
+            A feladat példaként és bizonyítékként szolgál arra, hogy a -128 és 127 közti integer értékeket poolban előre megcsinálja, és ha kell hivatkozik is rájuk, ezért a while függvény feltételei nem igazak. Nagyobb értéknél viszont lefut a ciklus. Ennek a célja a Java programok teljesítményének növelése.
+        </para>
+        <para>
+        <figure>
+            <title>gagyi</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/gagyi.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>  
+
+    <section>
+        <title>Yoda</title>
+        <para>
+Írjunk olyan Java programot, ami java.lang.NullPointerEx-el leáll, ha nem követjük a Yoda
+conditions-t! https://en.wikipedia.org/wiki/Yoda_conditions
+</para>
+
+       
+        <para>
+            Nem mindegy, hogy milyen sorrendben van az összehasonlítás, a YodaCondition szerint a konstanst kell összehasonlítani a változóval. Így nem kapunk kivételt. A YodaCondition azért van, hogy elkerülje egy elírás által okozott váratlan viselkedéseket. A Conditiont a Star Wars szereplőjéről nevezték el, mert egyik Yoda sem követi a szabályokat.
+        </para>
+        <para>
+        <figure>
+            <title>yoda</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/yoda.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+<para>
+        <figure>
+            <title>yoda2</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/yoda2.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>  
+    
+        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                

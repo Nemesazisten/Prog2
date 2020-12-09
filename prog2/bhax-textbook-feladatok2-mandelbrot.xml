@@ -1,0 +1,825 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Mandelbrot!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>Reverse engineering UML osztálydiagram</title>
+        <para>
+		UML osztálydiagram rajzolása az első védési C++ programhoz. Az osztálydiagramot a forrásokból
+generáljuk (pl. Argo UML, Umbrello, Eclipse UML) Mutassunk rá a kompozíció és aggregáció
+kapcsolatára a forráskódban és a diagramon, lásd még: https://youtu.be/Td_nlERlEOs.
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog1_6.pdf (28-32 fólia)
+
+        </para>
+        
+        <para>
+            Az UML a Unified Modeling Language rövidítése. Általános célú modellező nyelv szoftvermérnökök és rendszertervezők számára. Az UML egy gyakorlati, objektum orientált modellező megoldás, nagy méretű programrendszerek modelljeinek vizuális dokumentálására alkalmas eszköz. Az UML leíró nyelv segítségével különböző szöveges és grafikus modellek készíthetők. A feladat elkészítéséhez az Umbrello nevű programot használom. Beimportáltam a LZWBinfa Java forrását. Majd a program ebből generált egy UML diagramot. Két osztályból áll a kód, ezért két sárga részből épült fel a diagram is. Egy piros vonal két részre osztja ezt, a felsőben a változók, az alsóban a metódusok találhatók.
+        </para>
+        <para>
+    	<figure>
+    		<title>reverseuml</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/reverseuml.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>  
+    </section>        
+
+      <section>
+        <title>Forward engineering UML osztálydiagram</title>
+        <para>
+		UML-ben tervezzünk osztályokat és generáljunk belőle forrást!
+        </para>
+        
+        <para>
+        	Tulajdonképpen az előző feladat visszafelé. Az osztályok szerkezetét ábrázoló UML diagram segítségével generáljuk a kódot. Itt is az Umbrello programot használtam. Az előző feladatban kapott UML-t használtam fel. Íme az eredmény. 
+        	</para>
+        	<programlisting language='Java'><![CDATA[
+ 			/**
+ * Class java
+ */
+public class java {
+
+  //
+  // Fields
+  //
+
+  
+  //
+  // Constructors
+  //
+  public java () { };
+  
+  //
+  // Methods
+  //
+
+
+  //
+  // Accessor methods
+  //
+
+  //
+  // Other methods
+  //
+
+}
+
+import java.io.PrintWriter;
+import LZWBinFa.Csomopont;
+
+
+/**
+ * Class LZWBinFa
+ */
+public class LZWBinFa {
+
+  //
+  // Fields
+  //
+
+  protected Csomopont gyoker;
+  private Csomopont fa;
+  private int melyseg;
+  private int atlagosszeg;
+  private int atlagdb;
+  private double szorasosszeg;
+  
+  //
+  // Constructors
+  //
+  public LZWBinFa () { };
+  
+  //
+  // Methods
+  //
+
+
+  //
+  // Accessor methods
+  //
+
+  /**
+   * Set the value of gyoker
+   * @param newVar the new value of gyoker
+   */
+  protected void setGyoker (Csomopont newVar) {
+    gyoker = newVar;
+  }
+
+  /**
+   * Get the value of gyoker
+   * @return the value of gyoker
+   */
+  protected Csomopont getGyoker () {
+    return gyoker;
+  }
+
+  /**
+   * Set the value of fa
+   * @param newVar the new value of fa
+   */
+  private void setFa (Csomopont newVar) {
+    fa = newVar;
+  }
+
+  /**
+   * Get the value of fa
+   * @return the value of fa
+   */
+  private Csomopont getFa () {
+    return fa;
+  }
+
+  /**
+   * Set the value of melyseg
+   * @param newVar the new value of melyseg
+   */
+  private void setMelyseg (int newVar) {
+    melyseg = newVar;
+  }
+
+  /**
+   * Get the value of melyseg
+   * @return the value of melyseg
+   */
+  private int getMelyseg () {
+    return melyseg;
+  }
+
+  /**
+   * Set the value of atlagosszeg
+   * @param newVar the new value of atlagosszeg
+   */
+  private void setAtlagosszeg (int newVar) {
+    atlagosszeg = newVar;
+  }
+
+  /**
+   * Get the value of atlagosszeg
+   * @return the value of atlagosszeg
+   */
+  private int getAtlagosszeg () {
+    return atlagosszeg;
+  }
+
+  /**
+   * Set the value of atlagdb
+   * @param newVar the new value of atlagdb
+   */
+  private void setAtlagdb (int newVar) {
+    atlagdb = newVar;
+  }
+
+  /**
+   * Get the value of atlagdb
+   * @return the value of atlagdb
+   */
+  private int getAtlagdb () {
+    return atlagdb;
+  }
+
+  /**
+   * Set the value of szorasosszeg
+   * @param newVar the new value of szorasosszeg
+   */
+  private void setSzorasosszeg (double newVar) {
+    szorasosszeg = newVar;
+  }
+
+  /**
+   * Get the value of szorasosszeg
+   * @return the value of szorasosszeg
+   */
+  private double getSzorasosszeg () {
+    return szorasosszeg;
+  }
+
+  //
+  // Other methods
+  //
+
+  /**
+   */
+  public void LZWBinFa()
+  {
+  }
+
+
+  /**
+   * @param        b
+   */
+  public void egyBitFeldolg(char b)
+  {
+  }
+
+
+  /**
+   */
+  public void kiir()
+  {
+  }
+
+
+  /**
+   * @param        os
+   */
+  public void kiir(java.io.PrintWriter os)
+  {
+  }
+
+
+  /**
+   * @param        elem
+   * @param        os
+   */
+  public void kiir(LZWBinFa.Csomopont elem, java.io.PrintWriter os)
+  {
+  }
+
+
+  /**
+   * @return       int
+   */
+  public int getMelyseg()
+  {
+  }
+
+
+  /**
+   * @return       double
+   */
+  public double getAtlag()
+  {
+  }
+
+
+  /**
+   * @return       double
+   */
+  public double getSzoras()
+  {
+  }
+
+
+  /**
+   * @param        elem
+   */
+  public void rmelyseg(LZWBinFa.Csomopont elem)
+  {
+  }
+
+
+  /**
+   * @param        elem
+   */
+  public void ratlag(LZWBinFa.Csomopont elem)
+  {
+  }
+
+
+  /**
+   * @param        elem
+   */
+  public void rszoras(LZWBinFa.Csomopont elem)
+  {
+  }
+
+
+  /**
+   */
+  public static void usage()
+  {
+  }
+
+
+  /**
+   * @param        args
+   */
+  public static void main(String args)
+  {
+  }
+
+
+} 
+    		]]>
+    	</programlisting>      	   
+    </section> 
+	    <section>
+        <title>Egy esettan</title>
+        <para>
+		A BME-s C++ tankönyv 14. fejezetét (427-444 elmélet, 445-469 az esettan) dolgozzuk fel!
+
+        </para>
+        
+        <para>
+            A fejezet párhuzamot von különböző asszociációk, aggregáció, kompozíció és C++ nyelvben használt adattípusok között. A láthatóságról is említést tesz a fejezet elején. A package típusra nem találunk példát a nyelv hiányosságai miatt. A szerző megemlíti a forward engineering-et és reverse engineering-et vagyis a kódgenerlálást és kódvisszafejtést a fejezet végén. Az esettanulmány fejezetben egy számítógép alkatrészekkel és számítógép konfigurációkkal foglalkozó kereskedésnek írunk programot, hogy a jövőben újabb termékekkel is bővülhet a készlet. Úgy kell megtervezni az osztályokat, hogy a termékek alkatrészek is lehetnek vagy azokból álló konfigurációk is. A Product osztályból ezért CompositeProduct, Display és HardDisk alosztályok is leszármaztathatók, illetve a CompositeProduct-ból leszármaztatható a ComputerComfiguration alosztály is. Egy termék az alábbi tulajdonságokkal rendelkezik: GetDateOfAcquisition() (beszerzés időpontja), GetInitialPrice() (beszerzés ára) és GetName() (beszerzés neve). Ezek a Product tagfüggvényei. A GetAge() kiszámolja a termék korát az aktuális és beszerzési dátumból. A GetCurrentPrice() termékenként változó.
+        </para>
+        <programlisting language='C++'><![CDATA[
+ 			//File Proudct.H
+#ifndef PRODUCT_H
+#define PRODUCT_H
+
+#include <iostream>
+#include <ctime>
+#include <string>
+
+class Product {
+protected:
+    int initialPrice;
+    time_t dateOfAcquisition;
+    std::string name;
+    virtual void printParams(std::ostream& os) const;
+    virtual void loadParamsFromStream(std::istream& is);
+    virtual void writeParamsToStream(std::ostream& os) const;
+public:
+    Product();
+    Product(std::string name , int initialPrice , time_t dateOfAcquisition);
+    virtual ~Product() {};
+    int getInitialPrice() const;
+    std::string getName() const;
+    time_t getDateOfAcquisition() const;
+    int getAge() const;
+    virtual int getCurrentPrice() const;
+    void Print(std::ostream& os) const;
+    virtual std::string getType() const = 0;
+    virtual char getCharCode() const = 0;
+    bool operator< (const Product& other) const;
+
+
+    friend std::istream& operator>>(std::istream& is,Product& product);
+    friend std::ostream& operator<<(std::ostream& os,const Product& product);
+};
+#endif
+
+//File Product.cpp 
+#include "product.h"
+#include <iostream>
+#include <ctime>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+Product::Product() {}
+
+Product::Product(std::string name, int initialPrice,time_t dateOfAcquisition):name(name), ← initialPrice(initialPrice), dateOfAcquisition ← ( ← dateOfAcquisition ← ) {}
+time_t Product::getDateOfAcquisition() const {
+    return dateOfAcquisition;
+}
+int Product::getInitialPrice() const {
+    return initialPrice;
+}
+std::string Product::getName() const {
+    return name;
+}
+int Product::getCurrentPrice() const {
+    return initialPrice;
+}
+int Product::getAge() const {
+    time_t currentTime;
+    time(&currentTime);
+    double timeDiffInSec = difftime(currentTime,dateOfAcquisition);
+    return (int)(timeDiffInSec)/(3600*24);
+}
+void Product::Print(std::ostream& os) const {
+    os << "Type: " << getType() << ", ";
+    os << "Name: " << getName();
+    printParams(os);
+}
+void Product::printParams(std::ostream& os) const {
+    char strDateOfAcquisition[9];
+    strftime(strDateOfAcquisition , 9, "%Y%m%d" , gmtime(&dateOfAcquisition));
+    os << ", " << "Initial Price: " << initialPrice << ", " << "Date of Acquisition: " << dateOfAcquisition << ", " << "Age: " << getAge() << ", " << "Current price: " << getCurrentPrice();
+}
+void Product::writeParamsToStream(std::ostream& os) const {
+    char strDateOfAcquisition[9];
+    tm* t = localtime(&dateOfAcquisition);
+    strftime(strDateOfAcquisition,9,"%Y%m%d",t);
+    os << " " << name << " " << initialPrice << " " << strDateOfAcquisition;
+}
+void Product::loadParamsFromStream(std::istream& is) {
+    is >> name;
+    is >> initialPrice;
+    char buff[9];
+    is.width(9);
+    is >> buff;
+    if (strlen(buff) != 8) throw ("Invalid time format.");
+    char workBuff[5];
+    tm t;
+    int year;
+    strncpy(workBuff,buff,4);
+    workBuff[4] = ’\0’;
+    year = atoi(workBuff);
+    t.tm_year = year - 1900;
+    strncpy(workBuff,&buff[4],2);
+    workBuff[2] = ’\0’;
+    t.tm_mon = atoi(workBuff) - 1;
+    strncpy(workBuff,&buff[6],2);
+    workBuff[2] = ’\0’;
+    t.tm_mday = atoi(workBuff);
+    t.tm_hour = t.tm_min = t.tm_sec = 0;
+    t.tm_isdst = -1;
+    dateOfAcquisition = mktime(&t);
+}
+bool Product::operator < (const Product& other) const {
+    std::locale loc;
+    return loc(name,other.name);
+}
+std::istream& operator>>(std::istream& is,Product& product) {
+    product.loadParamsFromStream(is);
+    return is;
+}
+std::ostream& operator<<(std::ostream& os, const Product& product) {
+    os << product.getCharCode();
+    product.writeParamsToStream(os);
+    return os;
+}
+
+//File Display.h
+#ifndef DISPLAY_H
+#define DISPLAY_H
+
+#include "product.h"
+#include <string>
+
+class Display : public Product {
+    int inchWidth;
+    int inchHeight;
+public:
+    Display();
+    Display(std::string name , int price , time_t time , int number1 , int ← number2);
+    std::string getType() const;
+    char getCharCode() const;
+protected:
+    void printParams(std::ostream& os) const;
+    void writeParamsToStream(std::ostream& os) const;
+    void loadParamsFromStream(std::istream& is);
+};
+#endif
+
+//File Display.cpp
+
+#include "display.h"
+#include "product.h"
+#include <iostream>
+
+Display::Display(std::string name , int price , time_t date , int inchWidth , int ← inchHeight) {
+    Product::name = name;
+    Product::dateOfAcquisition = date;
+    Product::initialPrice = price;
+    Display::inchWidth = inchWidth;
+    Display::inchHeight = inchHeight;
+}
+Display::Display() {}
+void Display::printParams(std::ostream& os) const {
+    Product::printParams(os);
+    os << ", " << "InchWidth: " << inchWidth;
+    os << ", " << "InchHeight: " << inchHeight;
+}
+void Display::writeParamsToStream(std::ostream& os) const {
+    Product::writeParamsToStream(os);
+    os << ’ ’ << inchWidth << ’ ’ << inchHeight;
+}
+void Display::loadParamsFromStream(std::istream& is) {
+    Product::loadParamsFromStream(is);
+    is >> inchWidth >> inchHeight;
+}
+std::string Display::getType() const {
+    return Product::name;
+}
+char Display::getCharCode() const {
+    return ’d’;
+}
+
+//file HardDisk.cpp
+#include "product.h"
+//#include <string>
+class HardDisk : public Product {
+    int speedRPM;
+    static const char charCode = ’h’;
+public:
+    HardDisk() {} HardDisk(std::string name, int price , time_t date ,int speedRPM) {
+        Product::name = name;
+        Product::initialPrice = price;
+        Product::dateOfAcquisition = date;
+        this->speedRPM = speedRPM;
+    } int getCurrentPrice() const {
+        int ageInDays = getAge();
+        if (ageInDays < 30) return initialPrice;
+        else if (ageInDays >= 30 && ageInDays < 90) return (int)(initialPrice * ← 0.9);
+        else return (int)(initialPrice * ← 0.8);
+    } std::string getType() const {
+        return "HardDisk";
+    } char getCharCode() const {
+        return charCode;
+    }
+};
+//File ProductFactory.h
+#ifndef PRODUCTFACTORY_H
+#define PRODUCTFACTORY_H
+#include <iostream>
+#include "product.h" 
+class ProductFactory{
+static ProductFactory* instance;
+public:
+static void init(ProductFactory* pf);
+static ProductFactory* getInstance();
+Product* readAndCreateProduct(std::istream& is);
+virtual Product* createProduct(char typeCode) const = 0;
+};
+#endif
+
+//File ProductFactory.cpp
+#include "productfactory.h"
+ProductFactory* ProductFactory::instance = NULL;
+Product* ProductFactory::readAndCreateProduct(std::istream& is) {
+    if (!is.good()) return NULL;
+    char typeCode;
+    is >> typeCode;
+    if (!is.good()) {
+        if (is.eof()) return NULL;
+        std::cout << "There was an error reading the product items!" << std::endl;
+        return NULL;
+    }
+    Product* product = createProduct(typeCode);
+    if (product == NULL) std::cout << "unknown product type" << std::endl;
+    return product;
+}
+void ProductFactory::init(ProductFactory* pf) {
+    instance = pf;
+}
+ProductFactory* ProductFactory::getInstance() {
+    return instance;    
+}
+
+//File ProductInventory.h
+
+#ifndef PRODUCTINVENTORY_H
+#define PRODUCTINVENTORY_H
+#include <vector>
+#include <iostream>
+#include "product.h"
+class ProductInventory {
+    void emptyProducts();
+protected:
+    std::vector<Product*> products;
+public:
+    virtual ~ProductInventory();
+    void readInventory(std::istream& is);
+    void writeInventory(std::ostream& os) const;
+    void printProducts(std::ostream& os) const;
+    void addProduct(Product* product);
+};
+#endif
+
+//File ProductInventory.cpp
+
+#include "productinventory.h"
+#include "productfactory.h"
+ProductInventory::~ProductInventory() {
+    emptyProducts();
+}
+void ProductInventory::emptyProducts() {
+    for (unsigned int i = 0 ; i < products.size() ; i++) delete products[i];
+    products.clear();
+}
+void ProductInventory::printProducts(std::ostream& os) const {
+    for (unsigned int i = 0 ; i < products.size() ; i++) {
+        os << i << ".: ";
+        products[i]->Print(os);
+        os << std::endl;
+    }
+}
+void ProductInventory::readInventory(std::istream& is) {
+    is >> std::ws;
+    while (is.good()) {
+        Product* product = ProductFactory::getInstance()->readAndCreateProduct(is);
+        if (product) {
+            is >> *product;
+            addProduct(product);
+        }
+    }
+    std::cout << "End of reading product items.";
+}
+void ProductInventory::writeInventory(std::ostream& os) const {
+    for (unsigned int i = 0 ; i < products.size() ; i++) {
+        os << *products[i] << std::endl;
+    }
+}
+void ProductInventory::addProduct(Product* product) {
+    if (product == NULL) {
+        throw "The product parameter cannot be null";
+    }
+    products.push_back(product);
+}
+//File ComputerProductFactory.h 
+#ifndef COMPUTERPRODUCTFACTORY_H 
+#define COMPUTERPRODUCTFACTORY_H 
+#include "productfactory.h" 
+#include "display.h" 
+#include "hardisk.cpp"
+class ComputerProductFactory : public ProductFactory {
+public:
+    Product* createProduct(char typeCode) const;
+};
+#endif
+
+//File ComputerProductFactory.cpp
+#include "computerproductfactory.h"
+Product* ComputerProductFactory::createProduct(char typeCode) const {
+    switch(typeCode) {
+    case ’d’:
+        return new Display();
+    case ’h’:
+        return new HardDisk(); //case ’c’: return new ComputerConfiguration(); } return NULL;
+    }
+
+//File CompositeProduct.h 
+#ifndef COMPOSITEPRODUCT_H
+#define COMPOSITEPRODUCT_H
+#include "product.h" 
+#include <vector> 
+#include <iostream>
+    class CompositeProduct : public Product {
+        std::vector<Product*> parts;
+    protected:
+        void printParams(std::ostream& os) const;
+        void loadParamsFromStream(std::istream& is);
+        void writeParamsToStream(std::ostream& os) const;
+    public:
+        CompositeProduct();
+        ~CompositeProduct();
+        void addPart(Product* product);
+    };
+#endif 
+
+//File CompositeProduct.cpp
+#include "compositeproduct.h" 
+#include "productfactory.h" 
+#include "algorithm" 
+#include <iostream>
+    CompositeProduct::CompositeProduct():Product() {} void CompositeProduct::addPart(Product* product) {
+        parts.push_back(product);
+    }
+    CompositeProduct::~CompositeProduct() {
+        for (unsigned int i = 0 ; i < parts.size() ; i++) delete parts[i];
+        parts.clear();
+//for_each(parts.begin(),parts.end(),delete_ptr());
+    }
+    void CompositeProduct::printParams(std::ostream& os) const {
+        Product::printParams(os);
+        os << std::endl << " Items:";
+        for (unsigned int i = 0 ; i < parts.size() ; i++) {
+            os << std::endl << i << ". :";
+            parts[i]->Print(os);
+        }
+    }
+    void CompositeProduct::writeParamsToStream(std::ostream& os) const {
+        Product::writeParamsToStream(os);
+        os << " " << parts.size();
+        for (unsigned int i = 0 ; i < parts.size() ; i++) {
+            os << std::endl << *parts[i];
+        }
+    }
+    void CompositeProduct::loadParamsFromStream(std::istream& is) {
+        Product::loadParamsFromStream(is);
+        int itemCount;
+        is >> itemCount;
+        for (int i = 0; i < itemCount ; i++) {
+            Product* product = ProductFactory::getInstance()->readAndCreateProduct(is);
+            if (product) {
+                is >> *product;
+                addPart(product);
+            }
+        }
+    } 
+
+//File Date.cpp 
+#include <ctime> 
+#include <string.h> 
+#include <iostream>
+
+    class Date {
+        std::tm time;
+        template<class charT,class Traits> friend std::basic_istream<charT,Traits>& operator>> (std::basic_istream<charT,Traits>&,Date&);
+        template<class charT,class Traits> friend std::basic_ostream<charT,Traits>& operator<< (std::basic_ostream<charT,Traits>&,const Date&);
+        template<class charT,class Traits> friend std::basic_ostream<charT,Traits>& operator<< (std::basic_ostream<charT,Traits>& os,const Date& t) {
+            std::basic_ostream<charT,Traits>::sentry sntr(os);
+            if(!sntr) return os;
+            char* pattern = "%Y%m%d";
+            std::use_facet<std::time_put<charT,ostreambuf_iterator<charT,Traits>> >(os. ← getloc()).put(os,os,os.fill(),&t.time,pattern,pattern+strlen(pattern));
+            os.width(0);
+            return os;
+        }
+    public:
+        Date() {
+            memset(&time,0,sizeof(std::tm));
+            time_t now = std::time(NULL);
+            time = *localtime(&now);
+        }
+        Date(const std::tm& time):time(time) {}
+        Date(time_t t) {
+            time = *localtime(&t);
+        }
+        int getElapsedDays() const {
+            time_t currentTime;
+            std::time(&currentTime);
+            double timeDiffInSec = difftime(currentTime,mktime(const_cast<tm*>(&time)));
+            return (int)(timeDiffInSec/3600*24);
+        }
+    };
+
+//File ProductInventoryTest.cpp
+#include <fstream>
+#include "productinventory.h"
+#include "productfactory.h"
+#include "computerproductfactory.h"
+#include "display.h" 
+//#include "hardisk.cpp"
+    void readInvFromFileTest(ProductInventory& inv);
+    void writeInvToFileTest(ProductInventory& inv);
+    int main(int argc, char** argv) {
+        try {
+            ProductFactory::init(new ComputerProductFactory());
+            std::cout << "Test1: creating inventory and printing" << std::endl;
+            time_t currentTime;
+            time(&currentTime);
+            ProductInventory inv1;
+            inv1.addProduct(new Display("TF1",30000,currentTime,13,12));
+            inv1.addProduct(new HardDisk("wd",25000,currentTime,7500));
+            inv1.printProducts(std::cout);
+            std::cout << "press any key to continue" << std::endl;
+            std::cin.get();
+            std::cout << std::endl;
+            std::cout << "Test 2 loading inventory form a file (computerproducts.txt) and then ← writing to a file (computerproducts_out.txt)" << std::endl;
+            ProductInventory inv2;
+            readInvFromFileTest(inv2);
+            writeInvToFileTest(inv2);
+            std::cout << std::endl;
+            std::cout << "Done. ";
+            std::cin.get();
+            return 0;
+        }
+        catch(const std::exception& e) {
+            std::cerr << "There was an error" << std::endl;
+            std::cerr <<e.what() << std::endl;
+        }
+        catch(...) {
+            std::cout << "unexpected error occured" << std::endl;
+        }
+    }
+    void readInvFromFileTest(ProductInventory& inv) {
+        std::ifstream fs("computerproducts.txt");
+        if(!fs) {
+            std::cerr << "Error opening file" << std::endl;
+            return;
+        }
+        inv.readInventory(fs);
+        std::cout << "The content of computerproducts.txt is:" << std::endl;
+        inv.printProducts(std::cout);
+        std::cout << std::endl;
+    }
+    void writeInvToFileTest(ProductInventory& inv) {
+        std::ofstream fs("computerproducts_out.txt");
+        if (!fs) {
+            std::cerr << "Error opening file" << std::endl;
+            return;
+        }
+        inv.writeInventory(fs);
+        std::cout << "The content has been written to computerproducts_out.txt" << std::endl;
+    }
+    		]]>
+    	</programlisting>
+    </section> 
+	    <section>
+        <title>BPMN</title>
+        <para>
+		Rajzoljunk le egy tevékenységet BPMN-ben!
+https://arato.inf.unideb.hu/batfai.norbert/UDPROG/deprecated/Prog2_7.pdf (34-47 fólia)
+        </para>
+        
+        <para>
+            A folyamatábra a szörpivást írja le. Előveszek egy poharat. Ha piszkos, akkor elmosom, különben meg (1) töltök bele vizet. (2) Ha nem elég édes, öntök hozzá szörpöt, különben megiszom. 
+            Ha jó íze van, akkor is megiszom, különben ha túl édes, akkor visszaugrás a 1-es pontra. De ha a túl édes elágazás hamis, akkor ugrás a 2-es pontra. Mikor megittam és szomjas vagyok még, akkor ugrás az 1-es pontra. Ha nem vagyok szomjas akkor csillapítva lett a szomjam, és véget ér az algoritmus.
+        </para>
+        <para>
+    	<figure>
+    		<title>szorp</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/szorp.png" scale="36"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>  
+    </section> 
+	
+	    
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+</chapter>                

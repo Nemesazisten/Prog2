@@ -1,0 +1,213 @@
+<chapter xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xi="http://www.w3.org/2001/XInclude" version="5.0" xml:lang="hu">
+    <info>
+        <title>Helló, Calvin!</title>
+        <keywordset>
+            <keyword/>
+        </keywordset>
+    </info>
+
+    <section>
+        <title>MNIST</title>
+        <para>
+		Az alap feladat megoldása, +saját kézzel rajzolt képet is ismerjen fel,
+https://progpater.blog.hu/2016/11/13/hello_samu_a_tensorflow-bol Háttérként ezt vetítsük le:
+https://prezi.com/0u8ncvvoabcr/no-programming-programming/
+        </para>
+        
+        <para>
+            A python alapvetően egy objektum orientált, procedurális imperatív nyelv, míg a Tensorflow az adatfolyam programozást képviseli. A TensorFlow egy szoftverkönyvtár, gépi tanulási algoritmusok leírására es végrehajtására. A TensorFlow rendszerben kifejlesztett számítások változatlanul vagy csekély változtatással végrehajthatók nagyon eltérő hardver eszközökön a mobil telefonoktól és tabletektől kezdve, grafikus kártyákon át, sok számítógépből álló elosztott számítógéprendszerekig. A TensorFlow roppant flexibilis, nagyon széles körű algoritmusok megvalósítására alkalmas. Alkalmazható a számítástudomány más területein is. A TensorFlow számítást egy irányított gráf írja le. Adatáramlás a gráf élei mentén történik. A TensorFlow gráfban mindegyik csúcs egy műveletet reprezentálhat és mindegyik csúcsnak lehet nulla vagy több inputja, ugyanígy nulla vagy több outputja. A gráf normál elei mentén áramló értékek tenzorok, tetszőleges dimenziójú vektorok. Egy-egy elem típusát a gráf konstruálásakor specifikálják. Lehetnek a gráfban speciális élek is, amelyek mentén nem történik adatáramlás, hanem kontrol célokat szolgálnak. A program futtatásához szükség volt a TensorFlow könyvtárra, amit a Google fejlesztett ki a másfajta numerikus számításokhoz. A TensorFlow egy opensource gépi tanuláshoz használt szoftverkönyvtár. Továbbá kellett még egy 28x28-as kép, amit a program feldolgozva megmondta hogy hányas számot jelenít meg.
+            Szükségem volt a Python3-dev-re és a Python3-pip-ra. A pip segítségével megnéztük hogy az importált könyvtárak megvannak-e. Ha nincsenek, akkor leszedte nekünk. Importálni kellett a szükséges könyvtárakat. Keras-t használtam amit a következőképpen töltöttem le.
+        </para>
+        <programlisting language='python'><![CDATA[
+import keras
+from keras.datasets import fashion_mnist
+from keras.layers import Dense, Activation, Flatten, Conv2D, MaxPooling2D
+from keras.models import Sequential
+from keras.utils import to_categorical,np_utils
+from PIL import Image
+import numpy as np
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import os
+
+            ]]>
+        </programlisting>
+        <para>
+        Betöltöttem az adatbázist, melyet a következő paranccsal tettem.
+        </para>
+        <programlisting language='python'><![CDATA[
+(train_X,train_Y), (test_X,test_Y) = tf.keras.datasets.mnist.load_data()
+            ]]>
+        </programlisting>
+        <para>
+        Ezek a sorok a vektorok elkészítéséért felelősek, melyeket a reshape függvény segítségével hozunk megfelelő formára. Azaz 28-szor 28 db elemet tartalmazó vektorra, ez a 2. és a 3. paramétere a függvénynek. Az első paraméter a -1, ami azt jelenteni, hogy minden egyes tagra értelmezni kell. Alapvetően ide az kerülne hány darabot kell konvertálni (ha az első 10-et akarjuk, akkor egy tizest kellett írni). A 4. paraméter pedig a kép színcsatornájával köthető össze, mivel mi grayscale képeket használunk, ezért egyes kerül ide, de ha színes azaz RGB képeket használnánk, akkor a hármas kerülne ide.
+        </para>
+        <programlisting language='python'><![CDATA[
+train_X = train_X.reshape(-1, 28,28, 1)
+test_X = test_X.reshape(-1, 28,28, 1)
+            ]]>
+        </programlisting>
+        <para>
+        A következő kódrészlet felelős, hogy a tanulás minél gyorsabban végbemenjen. Az egyes pixelek értékeinek módosítása.
+        </para>
+        <programlisting language='python'><![CDATA[
+train_X = train_X.astype(’float32’)
+test_X = test_X.astype(’float32’)
+train_X = train_X / 255
+test_X = test_X / 255
+            ]]>
+        </programlisting>
+        <para>
+        Majd felépítjük a szekvenciális modellt. A rétegek egymásra helyezése az add() függvény segítségével fog történni. Első paraméterként a neuronok számát kell
+megadni (64), a második paraméter a detektor (3x3), a harmadik paramétere az input_shape, amik 28 X 28-as grayscale-s képek lesznek. Ezután a következő sorban aktiválunk egy relu-t (Rectified Linear Unit). Utána megadjuk, hogy mennyi adat kerüljön feldolgozásra egyszerre, ezt a pool_size-al tudjuk elérni. Ez egy vertikális és horizontális értéket vár paraméterként. Végül a compile függvénnyel megindítjuk a tanulási folyamatot.
+        </para>
+        <programlisting language='python'><![CDATA[
+model = Sequential()
+model.add(Conv2D(64, (3,3), input_shape=(28, 28, 1)))
+model.add(Activation(’relu’))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Conv2D(64, (3,3)))
+model.add(Activation(’relu’))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Flatten())
+model.add(Dense(64))
+model.add(Dense(10))
+model.add(Activation(’softmax’))
+model.compile(loss=keras.losses.categorical_crossentropy, optimizer=keras.optimizers.Adam(),metrics=[’accuracy’])
+            ]]>
+        </programlisting>
+        <para>
+        <figure>
+            <title>mnist</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/mnist.png" scale="40"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>        
+
+
+<section>
+        <title>CIFAR-10</title>
+        <para>
+		Az alap feladat megoldása, +saját fotót is ismerjen fel,
+https://progpater.blog.hu/2016/12/10/hello_samu_a_cifar-10_tf_tutorial_peldabol
+
+        </para>
+        
+        <para>
+            Ennek a feladatnak az elvégézésben segítségemre volt Harmati Norbert. A Tensorflow honlapjáról letöltöm a pip-et. Követem az ott leírtakat. Létrehozok egy virtual environment-et, és abban futtatom a cifar10_train.py-t. Feladatunk hasonló az előzőhöz, Csak itt tárgyakat, állatokat kell felismertetni számok helyett. Itt valószínű, hogy pontatlanabb lesz a neurális hálónk, mert nehezebb feladata lesz. A kód sokban hasonlít az előző feladatban lévőhöz. Egy másik adatbázisból dolgozunk.
+        </para>
+        <programlisting language='python'><![CDATA[
+(train_X,train_Y), (test_X,test_Y) = cifar10.load_data()
+            ]]>
+        </programlisting>
+        <para>
+            Itt a reshape fügvény, aminek a paraméterezésén változtattam. Most ugye 32*32-es képeket kap és RGB színkódolásút, ezért 4. paraméterként egy hármast kapott.
+        </para>
+        <programlisting language='python'><![CDATA[
+train_X = train_X.reshape(-1,32,32,3)
+test_X = test_X.reshape(-1, 32,32, 3)
+            ]]>
+        </programlisting>
+        <para>
+            A Dense réteg az előző réteg összes kimenetét továbbítja minden neuronjához, ebben az esetben a neuronok számát a 4-szeresére növeltük.
+        </para>
+        <programlisting language='python'><![CDATA[
+model.add(Dense(256))
+            ]]>
+        </programlisting>
+        <para>
+            Különbséget a Conv2D rétegben láthatunk. Itt a filterek (neuronok) számát a duplájára növeltük, és az input_shape is változik a felismerendő képek miatt.
+        </para>
+        <programlisting language='python'><![CDATA[
+model.add(Conv2D(128, (3, 3), activation=’relu’, input_shape=(32, 32, 3)))
+            ]]>
+        </programlisting>
+         <para>
+            Itt külön létre kellett hoznunk, egy tömböt, amiben indexelve vannak ugye az adott kategóriában lévő képek, így használható a one_hot kódolás, ami elengedhetetlen programunk működéséhez.
+        </para>
+        <programlisting language='python'><![CDATA[
+cifar_classes = [’airplane’, ’automobile’, ’bird’, ’cat’, ’deer’, ’dog’,
+’frog’, ’horse’, ’ship’, ’truck’]
+            ]]>
+        </programlisting>
+        <para>
+            Elindult a tanulási folyamat. Az első képet macskának ismerte fel.
+        </para>
+        <para>
+        <figure>
+            <title>cat</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/cat.png" scale="100"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+ <para>
+            A második képet repülőgépnek ismerte fel.
+        </para>
+        <para>
+        <figure>
+            <title>airplane</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/airplane.png" scale="100"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+<para>
+      Végül a harmadik képet pedig egy lónak.
+        </para>
+        <para>
+        <figure>
+            <title>horse</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/horse.png" scale="100"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+
+    </section>        
+
+<section>
+        <title>Android telefonra a TF objektum detektálója</title>
+        <para>
+		Telepítsük fel, próbáljuk ki!
+
+        </para>
+        
+        <para>
+            Az alkalmazást a Google Play Áruházból telepítettem. A program lényege hogy valós időben felismerje azokat a tárnyakat amit a kamera segítségével mutatunk a programnak. Tesztelgettem, hogy mit képes felismerni, illetve próbáltam találni pontokat ahol a program mindig rosszul ismeri fel az objektumot. Sajnos közel sem tökéletes, néha teljesen másnak ismeri fel, mint amit a képen látunk (a lenti képen például az egérpadot egy bőröndnek nézte). Ha nincs nagyon világos, akkor nehezére esik a programnak felismerni a tárgyakat, amiket egyébként könnyen felismerne. Kis négyzettel jelzi amit éppen detektál, és odaírja, hogy minek ismerte fel százalékos pontossággal.
+        </para>
+        <para>
+        <figure>
+            <title>tfod1</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/tfod1.png" scale="50"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+<para>
+        <figure>
+            <title>tfod2</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="img/tfod2.png" scale="50"/>
+</imageobject>
+</mediaobject>
+</figure>   
+</para>
+    </section>        
+
+        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+</chapter>                
